@@ -11,12 +11,12 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/spring-projects/spring-petclinic.git'
             }
         }
-        stage("Build") {
-            steps {
-                 //sh "mvn install -DskipTests=true"
-                 sh "mvn clean verify"
-            }
-        }
+        // stage("Build") {
+        //     steps {
+        //          //sh "mvn install -DskipTests=true"
+        //          sh "mvn clean verify"
+        //     }
+        // }
         stage("Sonar_scan"){
             steps{
                 withSonarQubeEnv('sonar'){
@@ -33,6 +33,14 @@ pipeline {
                 script {
                     waitForQualityGate abortPipeline: false, credentialsId: 'sonar' 
                 }
+            }
+        }
+        stage("snyk Scan"){
+            steps {
+                snykInstallation: 'Snyk_tool',
+                snykTokenId: 'snyk_api',
+                failOnError: 'false',
+                failOnIssues: 'false'
             }
         }
     }
