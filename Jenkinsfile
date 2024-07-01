@@ -37,10 +37,12 @@ pipeline {
         }
         stage("snyk Scan"){
             steps {
+                snykSecurity(
                 snykInstallation: 'Snyk_tool',
                 snykTokenId: 'snyk_api',
                 failOnError: 'false',
                 failOnIssues: 'false'
+                )
             }
         }
     }
