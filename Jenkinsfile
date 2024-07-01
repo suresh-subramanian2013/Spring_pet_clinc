@@ -52,5 +52,9 @@ pipeline {
                  //sh "mvn clean verify"
             }
         }
+    stage ("Image build"){
+        steps{
+            sh "docker build -t promo286/petapp:${BUILD_NUMBER} ."
+    }
 }
 }
