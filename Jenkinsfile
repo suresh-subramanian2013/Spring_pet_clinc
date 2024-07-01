@@ -11,12 +11,7 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/spring-projects/spring-petclinic.git'
             }
         }
-        // stage("Build") {
-        //     steps {
-        //          //sh "mvn install -DskipTests=true"
-        //          sh "mvn clean verify"
-        //     }
-        // }
+        
         stage("Sonar_scan"){
             steps{
                 withSonarQubeEnv('sonar'){
@@ -51,5 +46,11 @@ pipeline {
                 sh "trivy fs . > trivyfs.txt"
         }
     }
+    stage("Build") {
+            steps {
+                 sh "mvn install -DskipTests=true"
+                 //sh "mvn clean verify"
+            }
+        }
 }
 }
