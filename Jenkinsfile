@@ -41,7 +41,8 @@ pipeline {
                 snykInstallation: 'Snyk_tool',
                 snykTokenId: 'snyk_api',
                 failOnError: 'false',
-                failOnIssues: 'false'
+                failOnIssues: 'false',
+                monitorProjectOnBuild: 'true'
                 )
             }
         }
