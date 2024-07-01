@@ -13,7 +13,7 @@ pipeline {
         }
         stage("Build") {
             steps {
-                sh "mvn install -DskipTests=true"
+                // sh "mvn install -DskipTests=true"
             }
         }
         stage("Sonar_scan"){
