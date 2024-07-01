@@ -61,6 +61,11 @@ pipeline {
         steps{
             sh "docker build -t promo286/petapp:${BUILD_NUMBER} ."
     }
+    stage("TRIVY"){
+        steps{
+            sh "trivy image  promo286/petapp:${BUILD_NUMBER} --scanners vuln > trivyimage.txt" 
+            }
+        }
 }
 }
 }
