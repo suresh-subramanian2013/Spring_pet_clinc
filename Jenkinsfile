@@ -1,17 +1,16 @@
-pipeline{
-    agent any 
-}
+pipeline {
+    agent any
 
-stages{
-    stage("Git Checkout"){
-        steps{
-            git branch: 'master', url: 'https://github.com/spring-projects/spring-petclinic.git'
+    stages {
+        stage("Git Checkout") {
+            steps {
+                git branch: 'master', url: 'https://github.com/spring-projects/spring-petclinic.git'
+            }
         }
-        
+        stage("Build") {
+            steps {
+                sh "mvn clean package"
+            }
+        }
     }
-    stage("Build"){
-        steps{
-            sh "mvn clean package"
-        }
-}
 }
