@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        SCANNER_HOME=tool 'sonar_scanner'
+    }
+
     stages {
         stage("Git Checkout") {
             steps {
@@ -10,6 +14,14 @@ pipeline {
         stage("Build") {
             steps {
                 sh "mvn install -DskipTests=true"
+            }
+        }
+        stage("Sonar_scan"){
+            steps{
+                withSonarQubeEnv('sonar'){
+                    sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=DevsecOps28 \
+                    -Dsonar.projectKey=devsecops28_petclinc  '''
+                }
             }
         }
     }
