@@ -16,9 +16,9 @@ pipeline {
             steps{
                 withSonarQubeEnv('sonar'){
                     sh ''' $SCANNER_HOME/bin/sonar-scanner \
-                    -Dsonar.projectName=devsecops28 \
-                    -Dsonar.projectKey=devsecops28_petclinc \
-                    -Dsonar.organization=devsecops28 \
+                    -Dsonar.projectName=Spring_pet_clinc \
+                    -Dsonar.projectKey=Spring_pet_clinc \
+                    -Dsonar.organization=devops-sk2023 \
                     -Dsonar.java.binaries=target/classes '''
                 }
             }
@@ -59,14 +59,23 @@ pipeline {
 }
     stage ("Image build"){
         steps{
-            sh "docker build -t promo286/petapp:${BUILD_NUMBER} ."
+            sh "docker build -t suresh10214/petapp:${BUILD_NUMBER} ."
     }
     }
     stage("TRIVY"){
         steps{
-            sh "trivy image  promo286/petapp:${BUILD_NUMBER} --scanners vuln > trivyimage.txt" 
+            sh "trivy image  suresh10214/petapp:${BUILD_NUMBER} --scanners vuln > trivyimage.txt" 
             }
         }
+    stage("Docker Push") {
+    steps {
+        script {
+            docker.withRegistry('https://index.docker.io/v1/', 'docker_credentials') {
+                sh "docker push suresh10214/petapp:${BUILD_NUMBER}"
+            }
+        }
+    }
+} 
 
 }
 }
