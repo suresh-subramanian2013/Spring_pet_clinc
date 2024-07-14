@@ -6,7 +6,7 @@ pipeline {
     }
 
     stages {
-      
+             
         stage("Build") {
             steps {
                 sh "mvn install -DskipTests=true"
@@ -53,6 +53,7 @@ pipeline {
                 sh "trivy fs . > trivyfs.txt"
             }
         }
+
         stage("Image Build") {
             steps {
                 sh "docker build -t suresh10214/petapp:${BUILD_NUMBER} ."
@@ -61,4 +62,18 @@ pipeline {
 
         stage("TRIVY") {
             steps {
-                sh
+                sh "trivy image suresh10214/petapp:${BUILD_NUMBER} --scanners vuln > trivyimage.txt" 
+            }
+        }
+
+        stage("Docker Push") {
+            steps {
+                script {
+                    docker.withRegistry('https://index.docker.io/v1/', 'docker_credentials') {
+                        sh "docker push suresh10214/petapp:${BUILD_NUMBER}"
+                    }
+                }
+            }
+        }
+    }
+}
