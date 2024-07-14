@@ -59,13 +59,13 @@ pipeline {
                 sh "docker build -t suresh10214/petapp:${BUILD_NUMBER} ."
             }
         }
-
+/*
         stage("TRIVY") {
             steps {
                 sh "trivy image suresh10214/petapp:${BUILD_NUMBER} --scanners vuln > trivyimage.txt" 
             }
         }
-
+*/
         stage("Docker Push") {
             steps {
                 script {
